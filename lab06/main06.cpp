@@ -1,7 +1,29 @@
 #include <iostream>
-
-#define N 10000
+#include <cmath>
+#define N 20000
 #define Z 100
+
+int Multpl(int x) {
+    int mult = 1;
+    while (x>0) {
+        mult *= x%10;
+        x /= 10;
+    }
+    return mult;
+}
+
+int Sipml(int x) {
+    if (x < 2) {
+        return 0;
+    }
+    for (int i=2; i<= sqrt(x); ++i){
+        if (x% i == 0) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 
 int main() {
     /*
@@ -91,14 +113,17 @@ int main() {
     for (int i = 0; i<n; ++i) { 
         std::cout << x[i] << std::endl;
     }
+    
     */
+   /*
     std::cout << "3): " << std::endl;
     int lines, rows;
+    const int NMax = 100;
     std::cout << "lines/rows " << std::endl;
     std::cin>> lines;
     std::cin>> rows;
 
-    int matrix[lines][rows];
+    int matrix[NMax][NMax];
     std::cout << "matrix" << std::endl;
     for (int i = 0; i < lines; ++i) {
         for (int j = 0; j < rows; ++j) {
@@ -110,45 +135,100 @@ int main() {
     int MinCount3 = INT_MAX;
     for (int i = 0; i<rows; ++i) {
         int count3 = 0;
-        for (int j=0; j<lines; j+1) {
+        for (int j=0; j<lines; ++j) {
             // Проверка на 3ку в конце числа
-            int tmp = matrix[j][i];
+            int tmp = abs(matrix[j][i]);
             while (tmp>0) {
-                if (tmp%10==0) {
+                if (tmp%10==3) {
                     count3 += 1;
-                    tmp /= 10;
                 }
+                tmp /= 10;
             }
-            if (count3 < MinCount3) {
+            if (count3 <=3 MinCount3) {
                 MinCount3 = count3;
+                RowNumb = i;
             }
-            RowNumb += 1;
         }
     }
     //нашли столбец с меньшим колвом 3-ек
     for (int i = 0; i < lines; ++i) {
         for (int j = 0; j < rows; ++j) {
-            if (j==RowNumb) {
-                continue;
+            if (j!=RowNumb) {
+                matrix[i][j] = -17;
             }
-            matrix[i][j] = -17;
         }
     }
     std::cout << "result" << std::endl;
     for (int i = 0; i<lines; ++i) {
         for (int j = 0; j<rows; ++j) {
-            std::cout << matrix[i][j] << std::endl;
+            std::cout << matrix[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+    */
+
+    std::cout << "4): " << std::endl;
+    int n;
+    int x[N];
+    std::cin >> n;
+
+    for (int i = 0; i<n; ++i) {
+        std::cin>> x[i];
+    }
+    // функция - Multpl
+    // 1 - удалить кратные 70
+    int i = 0;
+    int j = 0;
+
+    while (i<n) {
+        if (Multpl(x[i])%70 != 0) {
+            x[j] = x[i];
+            ++i;
+            ++j;
+        } else {
+            ++i;
         }
     }
+    n = j;
+    for (int i = 0; i<n; ++i) {
+        std::cout << x[i] << " ";
+    }
+    std::cout << "\n";
+
+    int cntsipml = 0;
+    for (int f =0; f < n; ++f) {
+        if (Sipml(x[f]) == 1) {
+            cntsipml += 1;
+        }
+    }
+    // продублировать простые
+    int k = n + cntsipml - 1;
+    int tmp = k;
+    int f = n - 1;
+    while (f>=0) {
+        if (Sipml(x[f]) == 1) {
+            x[k] = x[f];
+            x[k-1] = x[f];
+            k -=2;
+        } else {
+            x[k] = x[f];
+            --k;
+            
+        }
+        --f;
+    }
+
+
+    std::cout << "RESULT: " << std::endl;
+    for (int i = 0; i<tmp + 1; ++i) {
+        std::cout << x[i] << '\t';
+    }
+
     return 0;
 
 }
 
 /*
-3.  Дана целочисленная матрица {Aij}i=1..n,j=1..m (n,m<=100). 
-Найти столбец, в котором меньше всего чисел, заканчивающихся 
-цифрой 3, и заменить все элементы матрицы кроме элементов 
-этого столбца числом -17. 
 4. 
 Сначала введите последовательность. Затем удалите и продублируйте элементы. Затем 
 выведите полученную 
