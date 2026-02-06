@@ -9,4 +9,4 @@ project("${PROJECT_NAME}")           # установить имя проект�
 set(CMAKE_CXX_STANDARD 20)			 # устанавливаем 17 стандарт языка
 
 # Сказать программе, что должен быть исполняемый файл
-add_executable("${PROJECT_NAME}" main.cpp)
+add_executable("${PROJECT_NAME}" hello.cpp)

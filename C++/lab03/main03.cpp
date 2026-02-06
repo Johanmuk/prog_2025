@@ -15,9 +15,8 @@ int main() {
 
     std::cout << x << std::endl;
     system("pause");
-
-    return 0;
     }
+    return 0;
 }
 
 
